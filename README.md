@@ -16,7 +16,6 @@ Before we dive in, make sure you have the following tools installed:
 
 To confirm you're good to go, run:
 
-
 ```bash
 node -v
 yarn -v
@@ -70,7 +69,8 @@ git remote add origin https://github.com/<your-username>/backstage-devconf-lab.g
 git push -u origin main
 ```
 
-💡 Replace <your-username> with your actual GitHub username.
+💡 Replace `<your-username>` with your actual GitHub username.
+
 You should now see your project live on GitHub!
 
 ## 🔍 Step 4: Run the App Locally
@@ -114,6 +114,7 @@ app:
 organization:
   name: Rockit Rockets
 ```
+
 💡 This updates the name shown in the header of your Backstage UI.
 
 The default `.gitignore` file created with the app excludes `*.local.yaml` from source control for you, so you can add passwords or tokens directly into the `app-config.local.yaml`.
@@ -131,7 +132,8 @@ Restart Backstage from the terminal, by stopping it with `Control-C`, and starti
 Backstage supports a bunch of auth providers, but for this workshop, we’ll use GitHub — it’s fast, familiar, and perfect for devs.
 
 ### 🧭 Add a new app to GitHub
-Go to https://github.com/settings/applications/new to create your OAuth App.
+
+Go to <https://github.com/settings/applications/new> to create your OAuth App.
 
 Homepage URL should point to Backstage's frontend, in our tutorial it would be `http://localhost:3000`
 Authorization callback URL should point to the auth backend, `http://localhost:7007/api/auth/github/handler/frame`
@@ -142,6 +144,7 @@ You should see the following viewport:
 Click `Register application` to generate a new `Client Secret` and take a note of the `Client ID` and the `Client Secret`.
 
 ### 🧭 Add the credentials to the configuration
+
 Open `app-config.local.yaml` add the below configuration and replace the values with the `Client ID` and the `Client Secret` from GitHub.
 
 ```yaml
@@ -152,10 +155,15 @@ auth:
       development:
         clientId: YOUR CLIENT ID
         clientSecret: YOUR CLIENT SECRET
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
 ```
+
 ❗️Remember to update your OAuth App on GitHub after you have generated your `Client secret`.
 
 ### 🧭 Add sign-in option to the frontend
+
 This step is needed to change the sign-in page. Get ready to dive into the code.
 
 1. Open `packages/app/src/App.tsx` in your favorite code editor and add:
@@ -171,6 +179,7 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
     apiRef: githubAuthApiRef,
     };
     ```
+
     💡 You may notice that the  `'@backstage/core-components'` package is already imported, feel free to adjust the imported components as needed.
 
 2. Search for `const app = createApp({` in this file, and below `apis,`, find `components` and update it to this:
@@ -205,12 +214,28 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
     backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
     ```
 
+5. For the sake of this guide we'll simply step you though adding a User to the org.yaml file that is included when you create a new Backstage instance. Let's do that:
+
+    First open the `/examples/org.yaml` file and at the bottom we'll add the following YAML:
+
+    ```yaml
+    ---
+    apiVersion: backstage.io/v1alpha1
+    kind: User
+    metadata:
+    name: YOUR GITHUB USERNAME
+    spec:
+    memberOf: [guests]
+    ```
+
 Restart Backstage from the terminal, by stopping it with `Control-C`, and starting it with `yarn start` . You should be welcomed by a login prompt. For example:
 
 ![github-log-in](./images/github-log-in.png)
 
 Click `SIGN IN`
 
-You should see a popup asking to authorize your OAuth App, Click `Authorize`!
+You should see a popup asking to authorize your OAuth App, Click `Authorize`! Once logged into your Backstage app click the `Settings` button you should see your user profile. For example:
+
+![github-user-profile](./images/github-user-profile.png)
 
 References: <https://backstage.io>
