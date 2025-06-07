@@ -48,13 +48,16 @@ cd backstage-devconf-lab/
 
 Now let’s get your app into a GitHub repository:
 
-1. Navigate to [GitHub](https://github.com/) and click New repository.
+1. Navigate to [GitHub](https://github.com/) and click `New repository`.
 
-2. Name it: backstage-devconf-lab (same as your app folder)
+2. Name it: `backstage-devconf-lab` (same as your app folder)
 
 3. ❗️Important: Do not add a README — your app already has one!
 
 4. Click Create Repository
+
+You should see the following viewport:
+![create-new-repository](./images/new-repo-github.png)
 
 Then return to your terminal and run:
 
@@ -77,6 +80,10 @@ Start the development server:
 ```bash
 yarn start
 ```
+
+You should see the following viewport:
+
+![backstage-catalog](./images/my-company-catalog.png)
 
 🎉 That’s it! You’re now running a fresh Backstage developer portal locally.
 
