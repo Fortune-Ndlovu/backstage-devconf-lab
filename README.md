@@ -131,7 +131,7 @@ Restart Backstage from the terminal, by stopping it with `Control-C`, and starti
 
 Backstage supports a bunch of auth providers, but for this workshop, we’ll use GitHub — it’s fast, familiar, and perfect for devs.
 
-### 🧭 Add a new app to GitHub
+### 🔑 Step 6.1: Add a new app to GitHub
 
 Go to <https://github.com/settings/applications/new> to create your OAuth App.
 
@@ -143,7 +143,7 @@ You should see the following viewport:
 
 Click `Register application` to generate a new `Client Secret` and take a note of the `Client ID` and the `Client Secret`.
 
-### 🧭 Add the credentials to the configuration
+### 🔑 Step 6.2: Add the credentials to the configuration
 
 Open `app-config.local.yaml` add the below configuration and replace the values with the `Client ID` and the `Client Secret` from GitHub.
 
@@ -162,7 +162,7 @@ auth:
 
 ❗️Remember to update your OAuth App on GitHub after you have generated your `Client secret`.
 
-### 🧭 Add sign-in option to the frontend
+### 🔑 Step 6.3: Add sign-in option to the frontend
 
 This step is needed to change the sign-in page. Get ready to dive into the code.
 
@@ -237,5 +237,58 @@ Click `SIGN IN`
 You should see a popup asking to authorize your OAuth App, Click `Authorize`! Once logged into your Backstage app click the `Settings` button you should see your user profile. For example:
 
 ![github-user-profile](./images/github-user-profile.png)
+
+🥳 You're Logged In, You did it! You just completed the GitHub OAuth handshake like a total boss 🕺💻. Now let’s bring in **TechDocs**, Backstage’s built-in documentation generator that renders Markdown using MkDocs and lives right inside your portal 🧭.
+
+---
+
+## 📚 Step 7: Enabling Techdocs
+
+With **TechDocs**, you can render Markdown (powered by MkDocs) right inside your portal.  
+Let’s get those docs live in your app in just a few quick steps. 🛠️✨
+
+1. Create an `mkdocs.yml` file in the root of your repository with the following content:
+
+  ```bash
+  site_name: 'example-docs'
+
+  nav:
+    - Home: index.md
+
+  plugins:
+    - techdocs-core
+  ```
+
+1. Adding the following lines to your root `catalog-info.yaml` file:
+
+  ```bash
+  metadata:
+    annotations:
+      backstage.io/techdocs-ref: dir:.
+  ```
+
+1. Create a `/docs` folder in the root of your repository with at least an `index.md` file in it. You can add the following example content into the `docs/index.md`:
+   
+```bash
+# example docs
+
+This is a basic example of documentation.
+```
+You can style and expand this later — but this gives us something to preview right now.
+
+Run the TechDocs CLI in your project root:
+
+```bash
+npx @techdocs/cli serve
+```
+
+This builds and serves your docs locally — super useful for testing before committing.
+
+Next git add, commit, and push your changes. we will register the repo as a component.
+
+Restart Backstage from the terminal, by stopping it with `Control-C`, and starting it with `yarn start` .
+
+Once logged in, click Docs in the sidebar 🧭.
+You should see your beautifully rendered TechDocs powered by your local markdown! 🎉
 
 References: <https://backstage.io>
