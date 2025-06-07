@@ -295,7 +295,14 @@ Input the URL of your repository for example:
 
 click `ANALYZE`, then click `IMPORT`, the click `VIEW COMPONENT`
 
-Docs in the sidebar 🧭.
-You should see your beautifully rendered TechDocs powered by your local markdown! 🎉
+Lastly Click `Docs` in the sidebar.
+You should see your beautifully rendered TechDocs powered by your local markdown! 🎉🎉
+
+![example-docs](./images/example-docs.png)
+
+---
+
+## Step 8: (Optional) Adding a plugin
+
 
 References: <https://backstage.io>
