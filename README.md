@@ -244,51 +244,58 @@ You should see a popup asking to authorize your OAuth App, Click `Authorize`! On
 
 ## 📚 Step 7: Enabling Techdocs
 
-With **TechDocs**, you can render Markdown (powered by MkDocs) right inside your portal.  
-Let’s get those docs live in your app in just a few quick steps. 🛠️✨
+With **TechDocs**, you can render Markdown (powered by MkDocs) right inside your portal. Let’s get those docs live in your app in just a few quick steps. 🛠️✨
 
 1. Create an `mkdocs.yml` file in the root of your repository with the following content:
 
-  ```bash
-  site_name: 'example-docs'
+    ```bash
+    site_name: 'example-docs'
 
-  nav:
-    - Home: index.md
+    nav:
+      - Home: index.md
 
-  plugins:
-    - techdocs-core
-  ```
+    plugins:
+      - techdocs-core
+    ```
 
-1. Adding the following lines to your root `catalog-info.yaml` file:
+2. Adding the following lines to your root `catalog-info.yaml` file:
 
-  ```bash
-  metadata:
-    annotations:
-      backstage.io/techdocs-ref: dir:.
-  ```
+    ```bash
+    metadata:
+      annotations:
+        backstage.io/techdocs-ref: dir:.
+    ```
 
-1. Create a `/docs` folder in the root of your repository with at least an `index.md` file in it. You can add the following example content into the `docs/index.md`:
-   
-```bash
-# example docs
+3. Create a `/docs` folder in the root of your repository with at least an `index.md` file in it. You can add the following example content into the `docs/index.md`:
 
-This is a basic example of documentation.
-```
-You can style and expand this later — but this gives us something to preview right now.
+    ```bash
+    # example docs
 
-Run the TechDocs CLI in your project root:
+    This is a basic example of documentation.
+    ```
 
-```bash
-npx @techdocs/cli serve
-```
+    You can style and expand this later — but this gives us something to preview right now.
 
-This builds and serves your docs locally — super useful for testing before committing.
+    Run the TechDocs CLI in your project root:
+
+    ```bash
+    npx @techdocs/cli serve
+    ```
+
+    This builds and serves your docs locally — super useful for testing before committing.
 
 Next git add, commit, and push your changes. we will register the repo as a component.
 
 Restart Backstage from the terminal, by stopping it with `Control-C`, and starting it with `yarn start` .
 
-Once logged in, click Docs in the sidebar 🧭.
+Once logged in, click `Create...` in the sidebar. Then click `REGISTER EXISTING COMPONENT`.
+
+Input the URL of your repository for example:
+`https://github.com/Fortune-Ndlovu/backstage-devconf-lab/blob/main/catalog-info.yaml`
+
+click `ANALYZE`, then click `IMPORT`, the click `VIEW COMPONENT`
+
+Docs in the sidebar 🧭.
 You should see your beautifully rendered TechDocs powered by your local markdown! 🎉
 
 References: <https://backstage.io>
