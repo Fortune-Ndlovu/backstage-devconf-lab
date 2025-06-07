@@ -87,11 +87,39 @@ You should see the following viewport:
 
 🎉 That’s it! You’re now running a fresh Backstage developer portal locally.
 
-Next up: We’ll customize your app name and start configuring GitHub Authentication!
+Next up: We’ll customize your app name and start configuring GitHub Authentication 🎸!
 
 ---
 
-## Step 5: Customize App Name
+## 🎨 Step 5: Customize App Name
 
-References:
-[Backstage](https://backstage.io)
+Open the `app-config.yaml` file in the root of your project (yep, same level as your `package.json`):
+
+Look for the following section:
+
+```yaml
+app:
+  title: My Company Catalog
+
+organization:
+  name: My Company
+```
+
+Change it to something that represents your vibe. For example:
+
+```yaml
+app:
+  title: Rockit Engine
+
+organization:
+  name: Rockit Rockets
+```
+💡 This updates the name shown in the header of your Backstage UI.
+
+The default `.gitignore` file created with the app excludes `*.local.yaml` from source control for you, so you can add passwords or tokens directly into the `app-config.local.yaml`.
+
+Restart Backstage from the terminal, by stopping it with `Control-C`, and starting it with `yarn start` to see the changes. The default Backstage Catalog screen will look like this:
+
+![backstage-catalog](./images/my-company-catalog.png)
+
+References: <https://backstage.io>
