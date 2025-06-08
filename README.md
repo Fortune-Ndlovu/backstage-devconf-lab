@@ -302,7 +302,202 @@ You should see your beautifully rendered TechDocs powered by your local markdown
 
 ---
 
-## Step 8: (Optional) Adding a plugin
+## Step 8: 🧠 AI Assistant in Backstage (Ollama + LLaMA 3)
 
+This final section of the workshop shows you how to integrate an AI Assistant into your Backstage instance using **Ollama** and **LLaMA 3**, completely offline,  no OpenAI, no embeddings, no database required.
 
-References: <https://backstage.io>
+### ⚙️ Again, Make Sure You have:
+
+- A running Backstage app (yarn dev or yarn start)
+- Docker installed (for running Ollama)
+- Node.js 18+ (we're using v22)
+- Git and a terminal
+
+### 🐙 1. Install Ollama
+
+Ollama is a local LLM server that runs models like LLaMA 3, Mistral, etc.
+
+**Mac/Linux:**
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+**Windows (WSL or native):**
+
+Download from <https://ollama.com/download>
+
+Then start the daemon:
+
+```bash
+ollama serve
+```
+
+### 🧠 2. Pull the LLaMA 3 model:
+
+We'll use the llama3 model. It's fast, open, and solid for general Q&A.
+
+```bash
+ollama pull llama3
+```
+
+### 🛠️ 3. Set up Backstage with the AI Assistant by Installing:
+
+```bash
+yarn add @langchain/community @roadiehq/rag-ai-backend
+```
+
+#### 🛠️ 3.1 Use this AI plugin backend config (packages/backend/src/plugins/ai.ts):
+
+```bash
+import { createBackendPlugin, coreServices } from '@backstage/backend-plugin-api';
+import { createApiRoutes } from '@roadiehq/rag-ai-backend';
+import { Ollama } from '@langchain/community/llms/ollama';
+import type { Router as ExpressRouter } from 'express';
+import { EmbeddingDoc } from '@roadiehq/rag-ai-node';
+
+const dummyAugmentationIndexer = {
+  vectorStore: {
+    addDocuments: async () => {},
+    similaritySearch: async () => [],
+    connectEmbeddings: async () => {},
+    deleteDocuments: async () => {},
+  },
+  index: async () => {},
+  createEmbeddings: async () => 0,
+  deleteDocuments: async () => {},
+  deleteEmbeddings: async () => {},
+  connectEmbeddings: async () => {},
+};
+
+const dummyRetrievalPipeline = {
+  retrieveRelevantDocuments: async (): Promise<EmbeddingDoc[]> => [],
+  retrieveAugmentationContext: async (): Promise<EmbeddingDoc[]> => [],
+};
+
+const aiPlugin = createBackendPlugin({
+  pluginId: 'rag-ai',
+  register(env) {
+    env.registerInit({
+      deps: {
+        logger: coreServices.logger,
+        config: coreServices.rootConfig,
+        discovery: coreServices.discovery,
+        httpRouter: coreServices.httpRouter,
+      },
+      async init({ logger, config, httpRouter }) {
+        const model = new Ollama({
+          baseUrl: 'http://localhost:11434',
+          model: 'llama3',
+          temperature: 0.7,
+        });
+
+        const ragAi = await createApiRoutes({
+          logger,
+          config,
+          model,
+          augmentationIndexer: dummyAugmentationIndexer,
+          retrievalPipeline: dummyRetrievalPipeline,
+        });
+
+        httpRouter.use(ragAi.router as unknown as ExpressRouter);
+      },
+    });
+  },
+});
+
+export default aiPlugin;
+
+```
+
+### 🛠️ 4. Register the plugin in `packages/backend/src/index.ts` right underneath `const backend = createBackend();`
+
+```bash
+backend.add(import('./plugins/ai'));
+```
+
+### 🛠️ 5. Locate `packages/app/src/components/Root/Root.tsx` and update and add this last import:
+
+```bash
+import { SidebarRagModal } from '@roadiehq/rag-ai';
+```
+
+Then you want to use the `<SidebarRagModal />` right before the `</Sidebar>`, for example:
+
+```bash
+      <SidebarRagModal />
+    </Sidebar>
+```
+
+### 🛠️ 6. Locate the `packages/app/src/App.tsx` and add the following last import:
+
+```bash
+import { RagModal } from '@roadiehq/rag-ai';
+```
+
+And we also want to use `<RagModal />` so inject is within `export default app.createRoot(` for example:
+
+```bash
+export default app.createRoot(
+  <>
+    <AlertDisplay />
+    <OAuthRequestDialog />
+    <AppRouter>
+      <Root>{routes}</Root>
+      <RagModal />
+    </AppRouter>
+  </>,
+);
+```
+
+### 🧪 5. Run Backstage and test it!
+
+```bash
+# in one terminal
+ollama run llama3
+
+# in another terminal
+yarn start
+```
+
+Then visit <http://localhost:3000>, and open the AI Assistant UI.
+
+Ask a question like:
+
+```bash
+What does Deep Learning mean in terms of Artificial Intelligence?
+```
+
+🎉 And see the model answer using its own knowledge — no RAG required, for example:
+
+![ai-assistant-plugin](./images/ai-assistant-plugin.png)
+
+---
+
+## 🎉 Congratulations — You Did It!
+
+You’ve just completed the Backstage DevConf.cz Lab — and what a journey it was!
+
+## 🧭 Where to Go Next
+
+Here are some helpful links to keep exploring Backstage and take your setup to the next level:
+
+### 🔗 Official Backstage Docs
+- 📚 [https://backstage.io/docs](https://backstage.io/docs)
+
+### 🧩 Plugin Ecosystem
+- 🔌 [https://backstage.io/plugins](https://backstage.io/plugins)
+
+### 📘 Roadie AI Assistant Plugin
+- 🤖 [https://github.com/RoadieHQ/backstage-plugin-ai-assistant](https://github.com/RoadieHQ/backstage-plugin-ai-assistant)
+
+### 🛠️ Red Hat Developer Hub (RHDH)
+- 💼 [https://developers.redhat.com/products/rhdh/overview](https://developers.redhat.com/products/rhdh/overview)
+
+---
+
+## 🙌 Stay Curious, Keep Building
+
+**— Fortune Ndlovu**
+
+<https://www.linkedin.com/in/fortune-ndlovu-007isme/>
