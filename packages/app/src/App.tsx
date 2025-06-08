@@ -37,6 +37,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { RagModal } from '@roadiehq/rag-ai';
 
 const githubProvider: SignInProviderConfig = {
   id: 'github-auth-provider',
@@ -118,6 +119,8 @@ export default app.createRoot(
     <OAuthRequestDialog />
     <AppRouter>
       <Root>{routes}</Root>
+      <RagModal />
     </AppRouter>
   </>,
 );
+

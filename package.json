@@ -50,5 +50,11 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@4.4.1"
+  "packageManager": "yarn@4.4.1",
+  "dependencies": {
+    "@langchain/community": "^0.3.45",
+    "@langchain/ollama": "^0.2.1",
+    "@roadiehq/rag-ai": "^1.1.8",
+    "langchain": "^0.3.27"
+  }
 }
