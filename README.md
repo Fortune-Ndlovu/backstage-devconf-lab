@@ -173,10 +173,10 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
     import { SignInProviderConfig, SignInPage } from '@backstage/core-components';
 
     const githubProvider: SignInProviderConfig = {
-    id: 'github-auth-provider',
-    title: 'GitHub',
-    message: 'Sign in using GitHub',
-    apiRef: githubAuthApiRef,
+      id: 'github-auth-provider',
+      title: 'GitHub',
+      message: 'Sign in using GitHub',
+      apiRef: githubAuthApiRef,
     };
     ```
 
@@ -186,13 +186,13 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
 
     ```bash
     components: {
-        SignInPage: props => (
-            <SignInPage
-                {...props}
-                auto
-                provider={githubProvider}
-            />
-        ),
+      SignInPage: props => (
+        <SignInPage
+          {...props}
+          auto
+          provider={githubProvider}
+        />
+      ),
     },
     ```
 
@@ -223,9 +223,9 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
     apiVersion: backstage.io/v1alpha1
     kind: User
     metadata:
-    name: YOUR GITHUB USERNAME
+      name: <YOUR GITHUB USER NAME>
     spec:
-    memberOf: [guests]
+      memberOf: [guests]
     ```
 
 Restart Backstage from the terminal, by stopping it with `Control-C`, and starting it with `yarn start` . You should be welcomed by a login prompt. For example:
