@@ -200,6 +200,10 @@ This step is needed to change the sign-in page. Get ready to dive into the code.
 
    ```bash
    yarn --cwd packages/backend add @backstage/plugin-auth-backend-module-github-provider
+   yarn --cwd packages/backend add @backstage/backend-plugin-api
+   yarn --cwd packages/backend add @roadiehq/rag-ai-backend
+   yarn --cwd packages/backend add @langchain/community
+   yarn --cwd packages/backend add @roadiehq/rag-ai-node
    ```
 
 4. Then in `packages/backend/src/index.ts` find this line:
