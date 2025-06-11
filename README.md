@@ -419,6 +419,11 @@ export default aiPlugin;
 ```bash
 backend.add(import('./plugins/ai'));
 ```
+Install @roadiehq/rag-ai in the frontend:
+
+```bash
+yarn --cwd packages/app add @roadiehq/rag-ai
+```
 
 ### 🛠️ 5. Locate `packages/app/src/components/Root/Root.tsx` and update and add this last import:
 
